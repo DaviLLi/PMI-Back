@@ -1,6 +1,8 @@
+//Importação da conexão com o banco
 const db = require("../database/connection");
 
 class PublicacaoDAO {
+  //Lista todos os posts
   async listAll() {
     const { rows } = await db.query(
       `SELECT id_publicacao, titulo, descricao, endereco, criado_em, id_usuario
@@ -10,6 +12,7 @@ class PublicacaoDAO {
     return rows;
   }
 
+  //Busca 1 post pelo ID
   async getById(id) {
     const { rows } = await db.query(
       `SELECT id_publicacao, titulo, descricao, endereco, criado_em, id_usuario
@@ -19,6 +22,7 @@ class PublicacaoDAO {
     return rows[0] || null;
   }
 
+  //Criar um novo post
   async create(data) {
     const { titulo, descricao, endereco, id_usuario } = data;
 
@@ -35,6 +39,7 @@ class PublicacaoDAO {
     return rows[0];
   }
 
+  //Pega total de posts
   async totalPostsByUser(id_usuario) {
     const { rows } = await db.query(
       `SELECT total_posts FROM usuario WHERE id_usuario = $1`,
@@ -44,6 +49,7 @@ class PublicacaoDAO {
     return rows[0]?.total_posts || 0;
   }
 
+  //Atualizar um post existente
   async update(id, patch) {
     const { titulo, descricao, endereco } = patch;
 
@@ -60,6 +66,7 @@ class PublicacaoDAO {
     return rows[0] || null;
   }
 
+  //Deletar um post
   async remove(id) {
     // pega id_usuario antes de apagar
     const r1 = await db.query(
@@ -77,7 +84,7 @@ class PublicacaoDAO {
       [id]
     );
 
-    // chama o procedure (se tinha usuário)
+    // chama o procedure para reduzir total_posts
     if (idUsuario) {
       await db.query(`CALL decrementa_postagens($1)`, [idUsuario]);
     }

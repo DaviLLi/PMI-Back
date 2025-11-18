@@ -1,6 +1,8 @@
+//Carrega o arquivo publicacaoDAO.js
 const DAO = require("../DAO/publicacaoDAO");
 
 class PublicacaoController {
+  //Método listar — GET /publicacao
   async listar(req, res) {
     try {
       const rows = await DAO.listAll();
@@ -9,7 +11,7 @@ class PublicacaoController {
       res.status(400).json({ error: err.message });
     }
   }
-
+  //Método buscarPorId — GET /publicacao/:id
   async buscarPorId(req, res) {
     try {
       const id = parseInt(req.params.id);
@@ -22,6 +24,7 @@ class PublicacaoController {
     }
   }
 
+  //Método criar — POST /publicacao
   async criar(req, res) {
     try {
       const post = req.body;
@@ -32,6 +35,7 @@ class PublicacaoController {
     }
   }
 
+  //Método atualizar — PUT /publicacao/:id
   async atualizar(req, res) {
     try {
       const id = parseInt(req.params.id);
@@ -42,6 +46,7 @@ class PublicacaoController {
     }
   }
 
+  //Método total — GET /publicacao/total/:id
   async total(req, res) {
     try {
       const idUsuario = req.params.id;
@@ -52,6 +57,7 @@ class PublicacaoController {
     }
   }
 
+  //Método deletar — DELETE /publicacao/:id
   async deletar(req, res) {
     try {
       const id = parseInt(req.params.id);

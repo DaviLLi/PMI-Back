@@ -1,8 +1,10 @@
-//Conexão com o banco
+//Conexão com o banco e importa o Pool gerenciador de conexões
 const { Pool } = require("pg");
 
+//Carrega variáveis de ambiente
 require("dotenv").config();
 
+//Configuração do Pool
 const config = new Pool({
   host: "localhost",
   database: "pe_na_trilha",
